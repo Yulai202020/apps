@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEGNotes</title>
+    <link rel="stylesheet" href="/files/stylemincss">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav class="mb-4 d-flex justify-content-between">
+        <ul class="d-flex align-items-center">
+            <li><a id="0" href="/notes/" class="p-3">Home</a></li>
+            <li><a id="1" href="/add/" class="p-3">Add</a></li>
+            <li><a href="/logout/" class="p-3">logout</a></li>
+        </ul>
+    </nav>
+    <br>
+    <div class="container"> <div class="row"> <div class="col-3"></div>
+        <div class="col-6">
+            <div class="mb-3">
+                <label for="sub" class="form-label">Search</label>
+                <input type="text" class="form-control" id="sub" name="search">
+            </div>
+            <div class="card" style="width: 45rem;">
+                {% for i in allnotes %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne"> {{i.1}} </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne"> <div class="accordion-body">
+                        {{i.2}}
+                        <a href="/view/{{i.0}}/" class="link-info">next -></a>
+                    </div>
+                </div> </div>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div> </div>
+</body>
+</html>
