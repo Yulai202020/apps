@@ -41,16 +41,25 @@ class notes:
         else : return HttpResponseRedirect("/notes")
 
     @csrf_exempt
-    def search(request,search) :
+    def search(request) :
+        
+        search = request.POST.get("search")
+        selectedtype = request.POST.getlist('typesearch[]')
+
         with conn.cursor() as cur:
             cur.execute(f"SELECT user_id From accounts where email = '{request.session.get('email')}'")
             MYID = cur.fetchall()[0][0]
 
         with conn.cursor() as cur:
-            cur.execute(f"SELECT * FROM notes WHERE subject LIKE '{search}'")
+            if selectedtype == '0':
+                cur.execute(f"SELECT * FROM notes WHERE subject LIKE '%{search}%' or content LIKE '%{search}%'")
+            elif selectedtype == '1':
+                cur.execute(f"SELECT * FROM notes WHERE subject LIKE '%{search}%'")
+            else :
+                cur.execute(f"SELECT * FROM notes WHERE content LIKE '%{search}%'")
             allnotes = cur.fetchall()
         with open("html/index.html") as f : html = f.read()
-        return HttpResponse(Template(html).render(Context({"allnotes":allnotes,"ID":MYID})))
+        return HttpResponse(Template(html).render(Context({"allnotes":allnotes,"ID":MYID,"a":request.POST.getlist('typesearch')})))
 
     @csrf_exempt
     def notes(request):
