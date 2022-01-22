@@ -42,24 +42,28 @@ class notes:
 
     @csrf_exempt
     def search(request) :
-        
-        search = request.POST.get("search")
-        selectedtype = request.POST.getlist('typesearch[]')
+        search = request.GET.get("search")
+        selectedtype = request.GET.getlist('typesearch[]')
+        print(search)
 
+        sql = f"SELECT * FROM notes WHERE subject LIKE '%{search}%' or content LIKE '%{search}%'"
+        print(sql)
+        
         with conn.cursor() as cur:
             cur.execute(f"SELECT user_id From accounts where email = '{request.session.get('email')}'")
             MYID = cur.fetchall()[0][0]
 
         with conn.cursor() as cur:
             if selectedtype == '0':
-                cur.execute(f"SELECT * FROM notes WHERE subject LIKE '%{search}%' or content LIKE '%{search}%'")
+                cur.execute(sql)
             elif selectedtype == '1':
                 cur.execute(f"SELECT * FROM notes WHERE subject LIKE '%{search}%'")
             else :
                 cur.execute(f"SELECT * FROM notes WHERE content LIKE '%{search}%'")
             allnotes = cur.fetchall()
+        print(allnotes)
         with open("html/index.html") as f : html = f.read()
-        return HttpResponse(Template(html).render(Context({"allnotes":allnotes,"ID":MYID,"a":request.POST.getlist('typesearch')})))
+        return HttpResponse(Template(html).render(Context({"allnotes":allnotes,"ID":MYID})))
 
     @csrf_exempt
     def notes(request):

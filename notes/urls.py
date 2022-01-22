@@ -12,8 +12,8 @@ urlpatterns = [
     # return
     path('loginret/', view.returns.login,name="loginret"),
     path('logout/', view.returns.logout,name="logout"),
-    path('return/add/', view.returns.add,name="retadd"),
-    path('return/creat/', view.returns.create,name="create"),
+    path('return/add', view.returns.add,name="retadd"),
+    path('return/creat', view.returns.create,name="create"),
     path('files/stylemincss' , view.datafiles.stylemincss , name="datafiles"),
     path('view/<str:idvid>/' , view.notes.view , name="view"),
 ]
